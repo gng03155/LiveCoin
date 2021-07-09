@@ -1,0 +1,27 @@
+
+.ag-theme-alpine-dark .ag-header-group-cell-label {
+    justify-content: center;
+}
+.ag-header-group-cell-with-group {
+    color : white;
+    font-size: 30px;
+}
+.rate-increase {
+    color : red;
+}
+.rate-decrease {
+    color : lightblue;
+}
+.rate-normal {
+    color : #ccc;
+}
+
+.increase {
+    color : red;
+}
+.decrease {
+    color : lightblue;
+}
+.normal {
+    color : #ccc;
+}
