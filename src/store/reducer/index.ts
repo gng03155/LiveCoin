@@ -1,8 +1,9 @@
-import { CoinDispatchType, UPDATE_DATA, UPDATE_BYNANCE, coinInfo, CoinInfoList } from "../type"
+import { CoinDispatchType, UPDATE_DATA, UPDATE_BYNANCE, UPDATE_EXCHANGE, coinInfo, CoinInfoList } from "../type"
 
 export interface InitState {
     coinInfoList: CoinInfoList,
-    allThemeList: string[]
+    allThemeList: string[],
+    exchangeRate?: number,
 }
 
 const initialstate: InitState = {
@@ -16,6 +17,7 @@ const initialstate: InitState = {
         none: [],
     },
     allThemeList: ["kimchi", "china", "nft", "cloud", "defi", "did", "none"],
+    exchangeRate: 0,
 }
 
 // { kimchi{} }
@@ -24,7 +26,6 @@ export const coinReducer = (state = initialstate, action: CoinDispatchType): Ini
     switch (action.type) {
         case UPDATE_DATA:
             const upInfo: coinInfo = action.payload;
-            // const upInfo: coinInfo = { name: info.name, code: info.code, trade_price: info.trade_price, signed_change_rate: info.signed_change_rate, acc_trade_price: info.acc_trade_price };
             const themeList = setTheme(upInfo.code);
             const copyList = { ...state.coinInfoList };
 
@@ -45,8 +46,10 @@ export const coinReducer = (state = initialstate, action: CoinDispatchType): Ini
                             if (upCoin.code.indexOf(item.code) !== -1) {
                                 let koreanPrice = upCoin.trade_price;
                                 let bnPrice = item.price;
-                                let exchangeRate = 1117;
-                                // console.log(`${item.code}Price = ${bnPrice}`);
+                                let exchangeRate = state.exchangeRate;
+                                if (exchangeRate === undefined) {
+                                    exchangeRate = 1000;
+                                }
                                 let exPrice = Math.round(bnPrice * exchangeRate);
                                 let kimpRate = (koreanPrice / exPrice - 1) * 100;
                                 let str = String(Math.round(kimpRate * 100) / 100);
@@ -61,6 +64,14 @@ export const coinReducer = (state = initialstate, action: CoinDispatchType): Ini
 
             })
             return { ...state, coinInfoList: copy };
+        case UPDATE_EXCHANGE:
+            let temp = action.payload;
+            if (typeof temp === "number") {
+                temp = Math.floor(temp);
+            } else {
+                temp = 1000;
+            }
+            return { ...state, exchangeRate: temp };
         default:
             return { ...state };
     }
@@ -109,22 +120,6 @@ const setTheme = (code: string) => {
     let defi = ["KRW-SXP", "KRW-UNI", "KRW-JST", "KRW-LINK", "KRW-TRX", "KRW-DOT"];
 
     let did = ["KRW-LAMB", "KRW-MED", "KRW-META", "KRW-CVC", "KRW-ICX", "KRW-ONT", "KRW-FCT2", "KRW-HUM"];
-
-    // if (kimchi.includes(code)) {
-    //     theme = "kimchi"
-    // } else if (china.includes(code)) {
-    //     theme = "china";
-    // } else if (nft.includes(code)) {
-    //     theme = "nft";
-    // } else if (cloud.includes(code)) {
-    //     theme = "cloud";
-    // } else if (defi.includes(code)) {
-    //     theme = "defi";
-    // } else if (did.includes(code)) {
-    //     theme = "did";
-    // } else {
-    //     theme = "none"
-    // }
 
     if (kimchi.includes(code)) {
         theme.push("kimchi");

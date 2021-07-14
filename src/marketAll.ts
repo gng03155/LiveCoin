@@ -1,9 +1,15 @@
 import axios from "axios";
 
-export const marketAll = async () => {
+export const marketAll = async (): Promise<any> => {
     const url = 'https://api.upbit.com/v1/market/all';
-    const options = { method: 'GET', headers: { Accept: 'application/json' } };
-    return await axios.get(url, options)
+    const options = { method: 'GET', url, headers: { Accept: 'application/json' } };
+    return await axios({
+        method: "GET",
+        url,
+        headers: {
+            Accept: "application/json",
+        }
+    })
         .then(res => {
             let coinList = res.data;
             let coinNameList = [];

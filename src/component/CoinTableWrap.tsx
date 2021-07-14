@@ -8,12 +8,8 @@ interface Props {
 
 export default function CoinTableWrap({ data }: Props) {
 
-    useEffect(() => {
-
-    }, [data])
-
     return (
-        <div style={{ display: 'flex', flexWrap: "wrap" }}>
+        <div style={{ display: 'flex', flexWrap: "wrap", justifyContent: "space-between" }}>
             {data &&
                 Object.keys(data).map((key, idx) => {
                     if (key === "kimchi" || key === "china" || key === "nft"

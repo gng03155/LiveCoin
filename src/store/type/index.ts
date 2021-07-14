@@ -1,5 +1,6 @@
 export const UPDATE_DATA = "UPDATE_DATA";
 export const UPDATE_BYNANCE = "UPDATE_BYNANCE";
+export const UPDATE_EXCHANGE = "UPDATE_EXCHANGE";
 
 export interface coinInfo {
     name: string,
@@ -37,4 +38,9 @@ export interface updateBiNance {
     payload: bnCoinInfo[],
 }
 
-export type CoinDispatchType = updateCoinInfo | updateBiNance;
+export interface updateExchange {
+    type: typeof UPDATE_EXCHANGE,
+    payload: number,
+}
+
+export type CoinDispatchType = updateCoinInfo | updateBiNance | updateExchange;

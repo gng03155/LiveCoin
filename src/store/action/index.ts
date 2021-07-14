@@ -1,6 +1,8 @@
 import axios from "axios"
 import { Dispatch } from "redux";
-import { CoinDispatchType, updateCoinInfo, bnCoinInfo, UPDATE_BYNANCE, UPDATE_DATA, coinInfo } from "../type"
+import { ThunkAction } from 'redux-thunk';
+import { ReducerType } from 'store';
+import { CoinDispatchType, UPDATE_EXCHANGE, bnCoinInfo, UPDATE_BYNANCE, UPDATE_DATA, coinInfo } from "../type"
 
 
 
@@ -8,6 +10,35 @@ export const coinDispatch = (updateCoin: coinInfo) => {
     return {
         type: UPDATE_DATA,
         payload: updateCoin,
+    }
+}
+
+export const exchangeRateDispatch = (): ThunkAction<void, ReducerType, null, CoinDispatchType> => {
+
+    return async (dispatch) => {
+        const params = {
+            authkey: "SPqIti55hguCsNzTd9otgmb2YUnPvhhG",
+            searchdate: "20210709",
+            data: "AP01",
+        }
+        // const temp = await axios({
+        //     method: "GET",
+        //     url: "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON",
+        //     data: params,
+        // }).then(res => res.data).catch(error => console.log(error));
+
+        const temp = await axios({
+            method: "GET",
+            url: "https://v6.exchangerate-api.com/v6/58aafa143de0d01b95919760/latest/USD",
+            headers: {
+                Accept: "application/json",
+            }
+        }).then(res => res.data.conversion_rates.KRW).catch(error => console.log(error));
+
+        dispatch({
+            type: UPDATE_EXCHANGE,
+            payload: temp,
+        })
     }
 }
 

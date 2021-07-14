@@ -10,20 +10,6 @@ export default function Coin({ list }: Props) {
 
     const [success, setSuccess] = useState(false);
 
-    useEffect(() => {
-
-        // setInterval(() => { console.log(coinInfo) }, 1000)
-
-    }, [])
-
-    useEffect(() => {
-
-        console.log(list);
-
-    }, [list])
-
-
-
     return (
         <div>
             {!success &&
