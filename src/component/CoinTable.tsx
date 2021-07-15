@@ -29,8 +29,6 @@ const CoinTable = ({ data, theme }: Props) => {
     }, [ref])
     const rowStyle = { fontSize: '12px' };
 
-    const cellStyle = { textTransform: "uppercase" };
-
     const cellClassKimpRules = {
         'normal': 'x ? x === "none" : false',
         'increase': 'x ? x.replace("%","") > 0 : false',
@@ -49,22 +47,22 @@ const CoinTable = ({ data, theme }: Props) => {
                 {showGrid &&
                     <AgGridReact
                         rowData={data}
-                        suppressMovableColumns={true}
                         suppressScrollOnNewData={true}
+                        suppressMovableColumns={true}
                         rowHeight={50}
                         domLayout="normal"
                         groupHeaderHeight={60}
                         rowStyle={rowStyle}
                     >
-                        <AgGridColumn headerName={theme} cellStyle={cellStyle}>
+                        <AgGridColumn headerName={theme}>
                             <AgGridColumn headerName="이름" field="name" width={wrapWidth * 30}></AgGridColumn>
-                            <AgGridColumn headerName="현재가" field="trade_price" width={wrapWidth * 15}  ></AgGridColumn>
+                            <AgGridColumn headerName="현재가" field="trade_price" width={wrapWidth * 20}  ></AgGridColumn>
                             <AgGridColumn headerName="등락률" field="signed_change_rate"
                                 cellClassRules={cellClassRateRules}
-                                sortable={true} width={wrapWidth * 15}></AgGridColumn >
+                                sortable={true} width={wrapWidth * 20}></AgGridColumn >
                             <AgGridColumn headerName="거래대금" type="rightAligned" field="acc_trade_price" sortable={true} width={wrapWidth * 20}></AgGridColumn>
                             {data[0].kimp !== null && typeof data[0].kimp === "string" &&
-                                <AgGridColumn headerName="김프" field="kimp" cellClassRules={cellClassKimpRules} width={wrapWidth * 15} ></AgGridColumn>
+                                <AgGridColumn headerName="김프" field="kimp" cellClassRules={cellClassKimpRules} width={wrapWidth * 20} ></AgGridColumn>
                             }
                         </AgGridColumn>
                     </AgGridReact>
