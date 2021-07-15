@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -6,8 +6,6 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
 import { coinInfo } from '../store/type';
 
 import "./CoinTableStyles.css";
-// import { ValueGetterParams, ValueSetterParams } from 'ag-grid-community/dist/lib/entities/colDef';
-import { CellClickedEvent, GridApi, GridReadyEvent } from 'ag-grid-community';
 
 
 
@@ -19,17 +17,19 @@ interface Props {
 
 const CoinTable = ({ data, theme }: Props) => {
 
-    const [gridApi, setGridApi] = useState<GridApi>();
     const [showGrid, SetShowGrid] = useState(false);
+    const [wrapWidth, setWrapWidth] = useState(0);
+    const ref = useRef<any>();
 
     useEffect(() => {
-    }, [data])
+        const aa = ref.current?.clientWidth;
+        console.log(aa);
+        setWrapWidth(Math.floor(aa / 100));
+        SetShowGrid(true);
+    }, [ref])
+    const rowStyle = { fontSize: '12px' };
 
-    // const onGridReady = (params: GridReadyEvent) => {
-    //     if (params.api)
-    //         setGridApi(params.api);
-    // }
-
+    const cellStyle = { textTransform: "uppercase" };
 
     const cellClassKimpRules = {
         'normal': 'x ? x === "none" : false',
@@ -45,8 +45,8 @@ const CoinTable = ({ data, theme }: Props) => {
 
     return (
         <>
-            {!showGrid &&
-                <div className="ag-theme-alpine-dark" style={{ width: 530, height: 500, margin: "20px", display: "block" }} >
+            <div ref={ref} className="ag-theme-alpine-dark" style={{ width: "30%", height: 500, margin: "20px 0", display: "block", textTransform: "uppercase" }} >
+                {showGrid &&
                     <AgGridReact
                         rowData={data}
                         suppressMovableColumns={true}
@@ -54,22 +54,23 @@ const CoinTable = ({ data, theme }: Props) => {
                         rowHeight={50}
                         domLayout="normal"
                         groupHeaderHeight={60}
-                    // onGridReady={onGridReady}
+                        rowStyle={rowStyle}
                     >
-                        <AgGridColumn headerName={theme}>
-                            <AgGridColumn headerName="이름" field="name" width={150}></AgGridColumn>
-                            <AgGridColumn headerName="현재가" field="trade_price" width={80}></AgGridColumn>
+                        <AgGridColumn headerName={theme} cellStyle={cellStyle}>
+                            <AgGridColumn headerName="이름" field="name" width={wrapWidth * 30}></AgGridColumn>
+                            <AgGridColumn headerName="현재가" field="trade_price" width={wrapWidth * 15}  ></AgGridColumn>
                             <AgGridColumn headerName="등락률" field="signed_change_rate"
                                 cellClassRules={cellClassRateRules}
-                                sortable={true} width={80}></AgGridColumn>
-                            <AgGridColumn headerName="거래대금" type="rightAligned" field="acc_trade_price" sortable={true} width={100}></AgGridColumn>
+                                sortable={true} width={wrapWidth * 15}></AgGridColumn >
+                            <AgGridColumn headerName="거래대금" type="rightAligned" field="acc_trade_price" sortable={true} width={wrapWidth * 20}></AgGridColumn>
                             {data[0].kimp !== null && typeof data[0].kimp === "string" &&
-                                <AgGridColumn headerName="김프" field="kimp" width={80} cellClassRules={cellClassKimpRules}></AgGridColumn>
+                                <AgGridColumn headerName="김프" field="kimp" cellClassRules={cellClassKimpRules} width={wrapWidth * 15} ></AgGridColumn>
                             }
                         </AgGridColumn>
                     </AgGridReact>
-                </div >
-            }
+                }
+            </div >
+
         </>
     );
 };
