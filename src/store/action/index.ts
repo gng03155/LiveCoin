@@ -29,7 +29,7 @@ export const exchangeRateDispatch = (): ThunkAction<void, ReducerType, null, Coi
 
         const temp = await axios({
             method: "GET",
-            url: "https://v6.exchangerate-api.com/v6/58aafa143de0d01b95919760/latest/USD",
+            url: "https://v6.exchangerate-api.com/v6/5547db4ef5de20eac99e9293/latest/USD",
             headers: {
                 Accept: "application/json",
             }

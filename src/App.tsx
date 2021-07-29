@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { marketAll } from './marketAll';
 import { coinDispatch, kimpDispatch, exchangeRateDispatch } from './store/action';
@@ -21,6 +21,22 @@ function App() {
   const dispatch = useDispatch();
 
   const state = useSelector((state: ReducerType) => state);
+
+  let socket = useRef<null | WebSocket>(null);
+
+  useEffect(() => {
+    return () => {
+      socket.current?.close();
+    }
+  }, [])
+
+  useEffect(() => {
+
+    return () => {
+      const newData = { ...state.coinInfoList };
+      setCoinInfoList(newData);
+    }
+  }, [state])
 
   useEffect(() => {
 
@@ -47,27 +63,21 @@ function App() {
       setInterval(async () => {
         await dispatch(kimpDispatch(coinNameInfo));
       }, 3000);
+      socket.current = new WebSocket("wss://api.upbit.com/websocket/v1");
 
-      setSocket();
-
+      setSocket(socket.current);
       setStarted(true);
       exchangeDispatch();
     }
 
-    return () => {
-      const newData = { ...state.coinInfoList };
-      setCoinInfoList(newData);
-    }
+  }, [dispatch, codeList, coinNameInfo, started]);
 
-  }, [dispatch, codeList, coinNameInfo, started, state]);
+  const setSocket = (ws: WebSocket) => {
 
-  const setSocket = () => {
-    let socket = new WebSocket("wss://api.upbit.com/websocket/v1");
-
-    socket.onopen = function (e) {
-      socket.send(`[ { "ticket": "TEST" }, { "type": "ticker", "codes": [ ${codeList} ] } ]`);
+    ws.onopen = function (e) {
+      ws.send(`[ { "ticket": "TEST" }, { "type": "ticker", "codes": [ ${codeList} ] } ]`);
     };
-    socket.onmessage = function (event) {
+    ws.onmessage = function (event) {
 
       const reader = new FileReader();
 

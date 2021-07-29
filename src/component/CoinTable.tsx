@@ -22,9 +22,8 @@ const CoinTable = ({ data, theme }: Props) => {
     const ref = useRef<any>();
 
     useEffect(() => {
-        const aa = ref.current?.clientWidth;
-        console.log(aa);
-        setWrapWidth(Math.floor(aa / 100));
+        const clientWidth = ref.current?.clientWidth;
+        setWrapWidth(Math.floor(clientWidth / 100));
         SetShowGrid(true);
     }, [ref])
     const rowStyle = { fontSize: '12px' };
