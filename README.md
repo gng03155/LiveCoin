@@ -1,42 +1,48 @@
-# 실시간 코인 시세 조회
-## 간단 설명
-지인에게 부탁받아 만들게된 프로젝트이기에 사용자 편의성에 중점을 두어 ag-grid 라이브러리를 채택했습니다<br>
-국내 가상화폐 거래소 Upbit와 국제 가상화폐 거래소 Binance에서 api 데이터를 받아왔습니다.<br>
-Websocket api , Rest api를 모두 사용하였습니다.<br>
+
+# 실시간 코인 시세 조회 
+## Info
+>React + Typecript + Redux-thunk 프로젝트입니다 </br>
+>ag-grid 라이브러리를 사용해서 깔끔한  UI를 제공합니다.</br>
+>국내 가상화폐 거래소 Upbit와 국제 가상화폐 거래소 Binance에서 api 데이터를 받아왔습니다.</br>
+>사이트에서 제공하는 Websocket api , Rest api를 사용하였습니다.</br>
+>Netlify 배포</br>
+
 ## Install
+
 ```
+//root dir
 npm install
 npm run start
 ```
+
 ## 구조
+
 ```
-root                        			 
+src                        			 
 │
 ├── components              
-|
-├── config                
-│				
-├── pages                 
-│     ├── index.tsx             // '/'
-│     ├── release-note.tsx      // '/release-note'
-│     ├── _app.tsx        
-│     ├── _document_.tsx        
-│     ├── index.scss      
-│     └── api             
+|     ├──CoinTable.tsx
+|     ├──CoinTableWrap.tsx
+|     ├──CoinTableStyles.css
+├── store                 
+│     ├── action        
+│     ├── reducer          
+│     └── type             
 │
-├── public  
-│     └── assets          
-│
-└── styles                          
-      ├── global-style.ts
-      ├── styled.d.ts    
-      └── styled.d.ts    
-
+├── index.tsx  
+└── App.tsx
 ```
+
 ## 사용 기술 스택
+
 React , Typescript , Redux , Redux-thunk , Websocket , ag-grid-react
 
+## 실행 화면
 
-## 실제 시연 영상
+![upbit](https://user-images.githubusercontent.com/73515375/127759342-24240c09-2e5a-4190-87ed-da365559ce2f.gif)
 
 ## 개발 이슈
+
+>[Notion](https://www.notion.so/photoshop-2c6ae95cf7024776b252071dc1c1b550, "notion link")
+
+
