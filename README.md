@@ -35,7 +35,7 @@ src
 
 ## 사용 기술 스택
 
-React , Typescript , Redux , Redux-thunk , Websocket , ag-grid-react
+React , Typescript , Redux , Redux-thunk , socket.io , ag-grid-react
 
 ## 실행 화면
 
